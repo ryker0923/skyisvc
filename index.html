@@ -1,0 +1,382 @@
+<!DOCTYPE hvtml>
+<!-- saved from url=(0033)https://github.com/kerwinchao/Low-resourceVC.github.io// -->
+
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SYKI-SVC: Advancing Singing Voice Conversion with Post-Processing Innovations and an Open-Source Professional Testset</title>
+<meta name="generator" content="Jekyll v3.9.0">
+<meta property="og:title" content="TODO: title">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://github.com/kerwinchao/Low-resourceVC.github.io//">
+<meta property="og:url" content="https://github.com/kerwinchao/Low-resourceVC.github.io//">
+<meta name="twitter:card" content="summary">
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body data-new-gr-c-s-check-loaded="14.1001.0" data-gr-ext-installed="">
+    <section class="page-header">
+    <!-- <h1 class="project-name">Demo PAGE</h1> -->
+    <!-- <h2 class="project-tagline"></h2> -->
+      
+      
+    </section>
+
+<section class="main-content">
+    <h1 id=""><center>SYKI-SVC: Advancing Singing Voice Conversion with Post-Processing Innovations and an Open-Source Professional Testset</center></h1>
+    <center> Yiquan Zhou<sup>1</sup>, Wenyu Wang<sup>1</sup>, Hongwu Ding<sup>2</sup>, Jiacheng Xu<sup>3</sup>, Jihua Zhu<sup>1</sup>, Shihao Li<sup>4</sup> </center>
+    <center> <sup>1</sup> School of Software Engineering, Xi’an Jiaotong University, Xi'an, China</center>
+	<center> <sup>2</sup> School of Computer Science and Technology, Anhui University, Hefei, China</center>
+	<center> <sup>3</sup> School of Software Engineering, East China Normal University, Shanghai, China</center>
+	<center> <sup>4</sup> Division of Music and Audio, Union Wheatland Culture and Media Ltd., Chengdu, China</center> 
+
+<h2>Contents</h2>
+<ul>
+  <li><a href="#abstract">Abstract</a></li>
+  <li><a href="#system">Demos -- SVC Evalution Dataset</a></li>
+  <li><a href="#OOD">Demos -- VC Experiment</a></li>
+  <li><a href="#DUR">Demos -- Ablation</a></li>
+  <li><a href="#CL">More Demos</a></li>
+ 
+</ul>
+
+<h2 id="abstract">1. Abstract<a name="abstract"></a></h2> 
+<p> In this paper, we propose a high-fidelity singing voice conversion system. Our system builds upon the SVCC T02 framework and consists of three key components: a feature extractor, a voice converter, and a post-processor. </p>
+
+<p> The feature extractor utilizes the HuBERT and Whisper models to derive F0 contours and extract speaker-independent linguistic features from the input singing voice. The voice converter then integrates the extracted timbre, F0, and linguistic content to synthesize the target speaker's waveform. Recognizing that the high-frequency components of a song carry minimal timbral information, we augment high-frequency information directly from the source to enhance audio quality. </p>
+
+<p> Due to the lack of a standardized professional dataset for evaluating expressive singing conversion systems, we have created and made publicly available a specialized test set. </p>
+
+<p> Comparative evaluations demonstrate that our system achieves a remarkably high level of naturalness, and further analysis confirms the efficacy of our proposed system design. </p>
+<body>
+    <div style="display: flex; justify-content: center;"> <!-- 使用justify-content来让子元素居中 -->
+        <img src="png/1.png" alt="Overall" width="600px"><!-- 第一张图片 -->
+        <img src="png/2.png" alt="t-SNE with AVENet" width="600px"> <!-- 第二张图片 -->
+    </div>
+</body>
+
+
+<h2>2. Demos -- SVC Technique Dataset<a name="system"></a></h2>
+
+<a href="https://pan.baidu.com/s/15Brj27-lDp2n9TvhBPvDQw?pwd=w9jc">SVC Technique Dataset</a>
+<p> We invited 6 high-level singers to record test data in a professional studio, incorporating a variety of techniques such as strong mixing, weak mixing, falsetto, and rap, among others. Moreover, we will make this test collection open source to provide valuable data for future research. The detailed information is recorded in Table. </p>
+
+
+<table>
+	<tbody>
+		<td style="text-align: center; width: 200px;"><strong>Wave<strong></td>
+		<td style="text-align: center; width: 200px;"><strong>Technique<strong></td>
+		<td style="text-align: center; width: 200px;"><strong>Gender<strong></td>
+		<tr>
+		  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-src/13-000001.wav"></audio></td>
+		  <td style="text-align: center; width: 200px;"><strong>_ 卡 尔 普 陪 外 孙 玩 滑 梯 _<strong></td>
+		  <td style="text-align: center; width: 200px;"><strong>sil k a er p u p ei uai s uen uan h ua t i sil<strong></td>
+		</tr>
+		<<tr>
+		  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-src/03-SSB03160008.wav"></audio></td>
+		  <td style="text-align: center; width: 200px;"><strong>_ 因 为 他 是 行 凶 者 _<strong></td>
+		  <td style="text-align: center; width: 200px;"><strong>sil in uei t a sh iii x ing x iong zh e sil<strong></td>
+		</tr>
+		<tr>
+		  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-src/06-SSB13280037.wav"></audio></td>
+		  <td style="text-align: center; width: 200px;"><strong>_ 楼 市 整 体 回 暖 步 伐 加 快 _<strong></td>
+		  <td style="text-align: center; width: 200px;"><strong>sil l ou sh iii zh eng t i h uei n uan b u f a j ia k uai sil<strong></td>
+		</tr>
+  </tbody>
+</table>
+
+<h2>3. Demos -- VC Experiment<a name="OOD"></a></h2>
+<table>
+  <tbody>
+    <tr>
+      <td style="text-align: center; width: 200px;"><strong>Source Speech<strong></td>
+      <td style="text-align: center; width: 200px;"><strong>Target Speaker<strong></td>
+      <td style="text-align: center; width: 200px;"><strong>FabasedVC(ours)<strong></td>
+	  <td style="text-align: center; width: 200px;"><strong>FreeVC<strong></td>
+	  <td style="text-align: center; width: 200px;"><strong>SOVITS<strong></td>
+	  <td style="text-align: center; width: 200px;"><strong>KNNVC<strong></td>
+    </tr>
+    <tr>
+        <td style="text-align: center; width: 200px;" rowspan="2"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-src/02-SSB03160007.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB08170002.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB0817/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FreeVC/SSB0817/02.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/SOVITS/SSB0817/02.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/KNNVC/SSB0817/02.wav"></audio></td>
+		
+	</tr>
+	<tr>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB15850001.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB1585/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FreeVC/SSB1585/02.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/SOVITS/SSB1585/02.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/KNNVC/SSB1585/02.wav"></audio></td>
+	</tr>
+	<tr>
+	    <td style="text-align: center; width: 200px;" rowspan="2"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-src/04-SSB13280002.wav"></audio></td>
+	    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB08170002.wav"></audio></td>
+	    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB0817/4.wav"></audio></td>
+	    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FreeVC/SSB0817/04.wav"></audio></td>
+	    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/SOVITS/SSB0817/04.wav"></audio></td>
+	    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/KNNVC/SSB0817/04.wav"></audio></td>
+	</tr>
+	<tr>
+	    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB15850001.wav"></audio></td>
+	    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB1585/4.wav"></audio></td>
+	    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FreeVC/SSB1585/04.wav"></audio></td>
+	    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/SOVITS/SSB1585/04.wav"></audio></td>
+	    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/KNNVC/SSB1585/04.wav"></audio></td>
+	</tr>
+  </tbody>
+</table>
+
+<h2>4. Demos -- Ablation<a name="#DUR"></a></h2>
+<table>
+  <tbody>
+    <tr>
+      <td style="text-align: center; width: 200px;"><strong>Source Speech<strong></td>
+      <td style="text-align: center; width: 200px;"><strong>Target Speaker<strong></td>
+      <td style="text-align: center; width: 200px;"><strong>FabasedVC<strong></td>
+	  <td style="text-align: center; width: 200px;"><strong>w/o SSL Pooling<strong></td>
+	  <td style="text-align: center; width: 200px;"><strong>w/o SSL Attention<strong></td>
+	  <td style="text-align: center; width: 200px;"><strong>w/o Duration predictor<strong></td>
+    </tr>
+    <tr>
+        <td style="text-align: center; width: 200px;" rowspan="2"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-src/02-SSB03160007.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB08170002.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB0817/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB0817/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB0817/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB0817/2.wav"></audio></td>
+    </tr>
+	<tr>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB15850001.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB1585/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB1585/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB1585/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB1585/2.wav"></audio></td>
+	<tr>
+        <td style="text-align: center; width: 200px;" rowspan="2"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-src/04-SSB13280002.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB08170002.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB0817/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB0817/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB0817/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB0817/4.wav"></audio></td>
+    </tr>
+	<tr>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB15850001.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB1585/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB1585/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB1585/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB1585/4.wav"></audio></td>	
+	</tr>
+	<tr>
+	    <td style="text-align: center; width: 200px;" rowspan="2"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-src/14-000002.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB08170002.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB0817/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB0817/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB0817/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB0817/14.wav"></audio></td>
+	</tr>
+	<tr>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB15850001.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB1585/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB1585/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB1585/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB1585/14.wav"></audio></td>	
+	</tr>
+  </tbody>
+</table>
+
+<h2>5. More Demos<a name="#CL"></a></h2>
+<table>
+  <tbody>
+    <tr>
+      <td style="text-align: center; width: 200px;"><strong>Source Speech<strong></td>
+      <td style="text-align: center; width: 200px;"><strong>Target Speaker<strong></td>
+      <td style="text-align: center; width: 200px;"><strong>FabasedVC<strong></td>
+	  <td style="text-align: center; width: 200px;"><strong>w/o SSL Pooling<strong></td>
+	  <td style="text-align: center; width: 200px;"><strong>w/o SSL Attention<strong></td>
+	  <td style="text-align: center; width: 200px;"><strong>w/o Duration predictor<strong></td>
+    </tr>
+    <tr>
+        <td style="text-align: center; width: 200px;" rowspan="2"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-src/02-SSB03160007.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB08170002.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB0817/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB0817/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB0817/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB0817/2.wav"></audio></td>
+    </tr>
+	<tr>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB15850001.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB1585/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB1585/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB1585/2.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB1585/2.wav"></audio></td>
+	<tr>
+        <td style="text-align: center; width: 200px;" rowspan="2"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-src/04-SSB13280002.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB08170002.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB0817/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB0817/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB0817/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB0817/4.wav"></audio></td>
+    </tr>
+	<tr>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB15850001.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB1585/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB1585/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB1585/4.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB1585/4.wav"></audio></td>	
+	</tr>
+	<tr>
+	    <td style="text-align: center; width: 200px;" rowspan="2"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-src/14-000002.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB08170002.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB0817/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB0817/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB0817/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB0817/14.wav"></audio></td>
+	</tr>
+	<tr>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/aaa-tar/SSB15850001.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5/SSB1585/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v3/SSB1585/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-avg/SSB1585/14.wav"></audio></td>
+		<td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="demo/FabasedVC-v5-nodp/SSB1585/14.wav"></audio></td>	
+	</tr>
+  </tbody>
+</table>
+
+
+<!-- <li><a href="#more">Demos -- Ablation</a></li> -->
+<!-- <li><a href="#more">Demos -- MTCR Speaker Moudule</a></li> -->
+
+<!-- <h3>6. Demos -- MTCR Speaker Moudule<a name="MTCR"></a></h3> -->
+<!-- 
+<blockquote>
+  Speaker Representation
+<!-- <h3>4.1. Demos -- E
+  ffectiveness of different style level<a name="mutiscale"></a></h2> -->
+<!-- <table>
+  <tbody>
+
+    <tr>
+      <td style="text-align: center; width: 200px;"><strong>Target Speaker<strong></td>
+    <td style="text-align: center; width: 200px;"><strong>Source Speech<strong></td>
+    <td style="text-align: center; width: 200px;"><strong>w/o Block1<strong></td>
+    <td style="text-align: center; width: 200px;"><strong>w/o Block2<strong></td>
+    <td style="text-align: center; width: 200px;"><strong>w/o Block3<strong></td>
+    <td style="text-align: center; width: 200px;"><strong>MTCR-VC (proposed)<strong></td>
+  </tr> -->
+  <!-- <tr>
+    <td style="text-align: center; width: 200px;" rowspan=1><strong>MediumVC<strong></td>
+    <td style="text-align: center; width: 200px;" rowspan=1><strong>SRDVC<strong></td>
+    <td style="text-align: center; width: 200px;" rowspan=1><strong>FragmentVC<strong></td>
+    <td style="text-align: center; width: 200px;" rowspan=1><strong>MTCR-VC (proposed)<strong></td>
+  </tr> -->
+  <!-- <tr>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/spk/260_123286_000006_000002_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/source/clb_arctic_a0020_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation//woBlock1/260-clb_arctic_a0020_24k_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation//woBlock2/260-clb_arctic_a0020_24k_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/woBlock3/260-clb_arctic_a0020_24k_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/MTCR/260-clb_arctic_a0020_24k_6db.wav"></audio></td>
+</tr>
+<tr>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/spk/4446_2275_000030_000000_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/source/bdl_arctic_a0006_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/woBlock1/4446-bdl_arctic_a0006_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/woBlock2/4446-bdl_arctic_a0006_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/woBlock3/4446-bdl_arctic_a0006_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/MTCR/4446-bdl_arctic_a0006_24k_6db.wav"></audio></td>
+</tr>
+<tr>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/spk/hifi92_0008_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/source/p315_022_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/woBlock1/hifi92-p315_022_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/woBlock2/hifi92-p315_022_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/woBlock3/hifi92-p315_022_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/MTCR/hifi92-p315_022_24k_6db.wav"></audio></td>
+</tr>
+<tr>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/spk/hifi6097_0001_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/source/p225_011_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/woBlock1/hifi6097-p225_011_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/woBlock2/hifi6097-p225_011_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/woBlock3/hifi6097-p225_011_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/MTCR/hifi6097-p225_011_24k_6db.wav"></audio></td>
+</tr>
+
+
+</tbody>
+</table> -->
+
+<!-- <blockquote>
+  Speaker Retrieval Process -->
+
+<!-- <table>
+  <tbody>
+
+    <tr>
+      <td style="text-align: center; width: 200px;"><strong>Target Speaker<strong></td>
+    <td style="text-align: center; width: 200px;"><strong>Source Speech<strong></td>
+    <td style="text-align: center; width: 200px;"><strong>Block1<strong></td>
+    <td style="text-align: center; width: 200px;"><strong>Block2<strong></td>
+    <td style="text-align: center; width: 200px;"><strong>Block3<strong></td>
+      <td style="text-align: center; width: 200px;"><strong>Temporal<strong></td>
+        <td style="text-align: center; width: 200px;"><strong>Channel<strong></td>  
+    <td style="text-align: center; width: 200px;"><strong>MTCR-VC (proposed)<strong></td>
+  </tr>
+  <tr>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/spk/260_123286_000006_000002_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/source/clb_arctic_a0020_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock1/260-clb_arctic_a0020_24k_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock2/260-clb_arctic_a0020_24k_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock3/260-clb_arctic_a0020_24k_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rtime/260-clb_arctic_a0020_24k_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rchannel/260-clb_arctic_a0020_24k_6db.wav"></audio></td>
+    <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/MTCR/260-clb_arctic_a0020_24k_6db.wav"></audio></td>
+</tr>
+<tr>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/spk/4446_2275_000030_000000_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/source/bdl_arctic_a0006_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock1/4446-bdl_arctic_a0006_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock2/4446-bdl_arctic_a0006_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock3/4446-bdl_arctic_a0006_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rtime/4446-bdl_arctic_a0006_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rchannel/4446-bdl_arctic_a0006_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/MTCR/4446-bdl_arctic_a0006_24k_6db.wav"></audio></td>
+</tr>
+<tr>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/spk/hifi92_0008_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/source/p315_022_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock1/hifi92-p315_022_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock2/hifi92-p315_022_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock3/hifi92-p315_022_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rtime/hifi92-p315_022_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rchannel/hifi92-p315_022_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/MTCR/hifi92-p315_022_24k_6db.wav"></audio></td>
+</tr>
+<tr>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/spk/hifi6097_0001_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/source/p225_011_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock1/hifi6097-p225_011_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock2/hifi6097-p225_011_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rBlock3/hifi6097-p225_011_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rtime/hifi6097-p225_011_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/rchannel/hifi6097-p225_011_24k_6db.wav"></audio></td>
+  <td style="text-align: center"><audio style="width: 200px;" controls="" preload="none" src="sample/ablation/MTCR/hifi6097-p225_011_24k_6db.wav"></audio></td>
+</tr>
+</tbody>
+</table>  -->
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+</body></html>
+
+
+git config --global user.email "avenet@163.com"
+git config --global user.name "interspeechAVENet"
